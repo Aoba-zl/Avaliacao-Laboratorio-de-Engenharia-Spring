@@ -4,6 +4,9 @@ import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Livro;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Venda;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence.CarrinhoDAO;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence.LivroDAO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,7 +26,8 @@ public class ConsultaLivroController {
     CarrinhoDAO cDAO;
 
     @RequestMapping(name = "iconsulta_livro", value = "/consulta_livro", method = RequestMethod.GET)
-    public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
+    public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model, 
+    		HttpServletRequest request) {
         String codigo= allRequestParam.get("codigo");
         String erro = "";
         Livro l = new Livro();
@@ -43,11 +47,20 @@ public class ConsultaLivroController {
     }
 
     @RequestMapping(name = "consulta_livro", value = "/consulta_livro", method = RequestMethod.POST)
-    public ModelAndView doPost(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
+    public ModelAndView doPost(@RequestParam Map<String, String> allRequestParam, ModelMap model, 
+    		HttpServletRequest request) {
         String qntd = allRequestParam.get("qntd");
         String codigo = allRequestParam.get("codigoLivro");
         String erro = "";
         String saida = "";
+        String email = "";
+        HttpSession session = request.getSession(false);
+
+        if (session != null)
+        {
+        	email = (String) session.getAttribute("login_c");
+        	email = email == null ? "" : email;
+        }
 
         Livro l = new Livro();
         Venda v = new Venda();
@@ -55,19 +68,26 @@ public class ConsultaLivroController {
         try {
             l = lDao.visualizar(Integer.parseInt(codigo));
 
-            if (l.getEstoque() < Integer.parseInt(qntd)) {
-                erro = "Quantidade inválida, por favor, tente novamente.";
-
-            } else {
-                v.setCodigo(cDAO.consultarVenda("luancamilo313@gmail.com"));
-                if (v.getCodigo() == 0) {
-                    v.setCodigo(cDAO.novoCarrinho("luancamilo313@gmail.com"));
-                }
-
-                cDAO.adicionarItem(l.getCodigo(), v.getCodigo(), Integer.parseInt(qntd));
-                l = lDao.visualizar(Integer.parseInt(codigo));
-                saida = "Livro adicionado com sucesso";
-            }
+	        if (email.equalsIgnoreCase(""))
+	        {
+	        	return new ModelAndView("login_cliente");
+	        }
+	        else
+	        {
+	        	if (l.getEstoque() < Integer.parseInt(qntd)) {
+	                erro = "Quantidade inválida, por favor, tente novamente.";
+	
+	            } else {
+	                v.setCodigo(cDAO.consultarVenda(email));
+	                if (v.getCodigo() == 0) {
+	                    v.setCodigo(cDAO.novoCarrinho(email));
+	                }
+	
+	                cDAO.adicionarItem(l.getCodigo(), v.getCodigo(), Integer.parseInt(qntd));
+	                l = lDao.visualizar(Integer.parseInt(codigo));
+	                saida = "Livro adicionado com sucesso";
+	            }
+	        }
 
         } catch (Exception e) {
             erro = e.getMessage();

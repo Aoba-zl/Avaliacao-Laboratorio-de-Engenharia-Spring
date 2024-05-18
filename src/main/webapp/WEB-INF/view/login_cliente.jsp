@@ -12,8 +12,7 @@
   <body>
     <div>
       <header>
-        <a href="${pageContext.request.contextPath}/index.jsp">Home</a>
-        <a href="${pageContext.request.contextPath}/carrinho.jsp">Carrinho</a>
+		<a href="index">Home</a>
       </header>
     </div>
     <form action="login_cliente" method="post">

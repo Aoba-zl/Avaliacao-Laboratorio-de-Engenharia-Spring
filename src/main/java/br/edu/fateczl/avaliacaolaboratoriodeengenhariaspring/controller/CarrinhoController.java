@@ -1,9 +1,12 @@
 package br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.controller;
 
-import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.ItemVenda;
-import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Venda;
-import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence.CarrinhoDAO;
-import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.utils.ManipularCoockies;
+import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,44 +15,44 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.sql.SQLException;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.ItemVenda;
+import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Venda;
+import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence.CarrinhoDAO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class CarrinhoController {
     @Autowired
     CarrinhoDAO carrinhoDAO;
 
-    ManipularCoockies valCoockie = new ManipularCoockies();
-
     Venda carrinho = new Venda();
     List<ItemVenda> produtosCarrinho = new ArrayList<>();
     double subTotal= 0;
     double desconto= 0;
-    double total;
+    double total = 0;
     String stringSubTotal= "";
     String stringDesconto= "";
     String stringTotal= "";
 
 
     @RequestMapping(name = "carrinho", value = "/carrinho", method = RequestMethod.GET)
-    public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
+    public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model, 
+    		HttpServletRequest request) {
         String item_codigo= allRequestParam.get("codigo");
         String botao= allRequestParam.get("acao");
-//        Cookie[] cookies = req.getCookies();
-//        String email = valCoockie.buscaValorCookie("login", cookies);
-        String email = "teste";
+        String email = "";
+        HttpSession session = request.getSession(false);
+
+        if (session != null)
+        {
+        	email = (String) session.getAttribute("login_c");
+        	email = email == null ? "" : email;
+        }
 
         String erro= "";
         String saida= "";
         int codigo_venda;
-        subTotal = 0;
-        desconto = 0;
-        total = 0;
 
         try {
             carrinho = carrinhoDAO.getProdutosCarrinho(email);
@@ -70,6 +73,15 @@ public class CarrinhoController {
                     }
                 }
             }
+            
+            if (!email.equalsIgnoreCase(""))
+            {
+            	carrinho = carrinhoDAO.getProdutosCarrinho(email);
+                produtosCarrinho = carrinho.getItens();
+
+                calcularTotal(email);
+            }
+            
         } catch (SQLException | ClassNotFoundException e) {
             erro = e.getMessage();
         } finally {
@@ -86,19 +98,19 @@ public class CarrinhoController {
     }
 
     @RequestMapping(name = "carrinho", value = "/carrinho", method = RequestMethod.POST)
-    public ModelAndView doPost(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
+    public ModelAndView doPost(@RequestParam Map<String, String> allRequestParam, ModelMap model, 
+    		HttpServletRequest request) {
         String botao= allRequestParam.get("botao");
-//        Cookie[] cookies = req.getCookies();
-//        String email = valCoockie.buscaValorCookie("login", cookies);
         String email = "";
+        HttpSession session = request.getSession(false);
+
+        if (session != null)
+        	email = (String) session.getAttribute("login_c");
 
         String erro= "";
         String saida= "";
 
         int codigo_venda;
-        subTotal = 0;
-        desconto = 0;
-        total = 0;
 
         try {
             if (botao != null){

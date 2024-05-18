@@ -9,8 +9,8 @@
   <body>
     <div>
       <header>
-        <a href="index.html">Home</a>
-        <a href="login_cliente.html">Login Cliente</a>
+        <a href="index">Home</a>
+        <a href="login_cliente">Login Cliente</a>
       </header>
     </div>
     <form action="" method="post">

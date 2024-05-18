@@ -183,7 +183,7 @@ public class CarrinhoDAO {
 
     public int novoCarrinho(String email) throws SQLException, ClassNotFoundException {
         Connection c= gDao.getConnection();
-        String sql = "CALL spNovoCarrinho (?";
+        String sql = "{ CALL spNovoCarrinho (?) }";
         CallableStatement cs = c.prepareCall(sql);
         cs.setString(1, email);
         cs.execute();
@@ -195,7 +195,7 @@ public class CarrinhoDAO {
 
     public void adicionarItem(int codigoL, int codigoV, int qntd) throws SQLException, ClassNotFoundException {
         Connection c= gDao.getConnection();
-        String sql = "CALL spInsereItem ?, ?, ?";
+        String sql = "{ CALL spInsereItem (?, ?, ?) }";
         CallableStatement cs = c.prepareCall(sql);
         cs.setInt(1, codigoL);
         cs.setInt(2, codigoV);

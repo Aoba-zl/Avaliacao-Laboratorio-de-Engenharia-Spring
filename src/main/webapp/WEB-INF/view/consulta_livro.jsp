@@ -9,11 +9,11 @@
 </head>
 <body>
 <div>
-    <header>
-        <a href="${pageContext.request.contextPath}/index">Home</a>
-        <a href="${pageContext.request.contextPath}/carrinho">Carrinho</a>
-        <a href="login_geral.jsp">Conta</a>
-    </header>
+    	<header>
+			<a href="index">Home</a> 
+			<a onclick="carrinho()">Carrinho</a> 
+			<a onclick="conta()">Conta</a>
+		</header>
 </div>
 <form action="consulta_livro" method="post">
     <main>
@@ -116,4 +116,22 @@
     </c:if>
 </div>
 </body>
+<script>
+	function conta() {
+		<c:if test="${not empty login_c}">
+		window.location.href = "manter_cliente"
+		</c:if>
+		<c:if test="${empty login_c}">
+		window.location.href = "login_cliente"
+		</c:if>
+	}
+	function carrinho() {
+		<c:if test="${not empty login_c}">
+		window.location.href = "carrinho"
+		</c:if>
+		<c:if test="${empty login_c}">
+		window.location.href = "login_cliente"
+		</c:if>
+	}
+</script>
 </html>

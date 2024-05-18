@@ -13,7 +13,7 @@
     <body> 
         <div>
             <header>
-                <a href="${pageContext.request.contextPath}/index.jsp">Home</a>
+                <a href="index">Home</a> 
             </header>
         </div>
         <main> 
