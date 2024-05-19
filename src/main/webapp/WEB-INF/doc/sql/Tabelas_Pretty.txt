@@ -1,0 +1,61 @@
++------------------------------------------------+
+|                    CLIENTE                     |
++-----+----------------+--------------+----------+
+| KEY | NAME           | TYPE         | NULL     |
++-----+----------------+--------------+----------+
+| PK  | email          | VARCHAR(100) | NOT NULL |
+|     | senha          | VARCHAR(100) | NOT NULL |
+|     | nome           | VARCHAR(100) | NOT NULL |
+|     | enderco_log    | VARCHAR(100) | NOT NULL |
+|     | endereco_num   | INT          | NOT NULL |
++-----+----------------+--------------+----------+
+
++-----------------------------------------------+
+|                  ITEM_VENDA                   |
++-----+--------------+---------------+----------+
+| KEY | NAME         | TYPE          | NULL     |
++-----+--------------+---------------+----------+
+| PK  | id           | INT           | NOT NULL |
+| FK  | codigo_livro | INT           | NOT NULL |
+| FK  | codigo_venda | INT           | NOT NULL |
+|     | quantidade   | INT           | NOT NULL |
+|     | total        | DECIMAL(6, 2) | NOT NULL |
++-----+--------------+---------------+----------+
+
++-------------------------------------------------+
+|                      LIVRO                      |
++-----+----------------+---------------+----------+
+| KEY | NAME           | TYPE          | NULL     |
++-----+----------------+---------------+----------+
+| PK  | codigo         | INT           | NOT NULL |
+|     | titulo         | VARCHAR(100)  | NOT NULL |
+|     | descricao      | VARCHAR(100)  | NOT NULL |
+|     | genero         | VARCHAR(100)  | NOT NULL |
+|     | autor          | VARCHAR(100)  | NOT NULL |
+|     | preco          | DECIMAL(6, 2) | NULL     |
+|     | dt_publilcacao | DATE          | NOT NULL |
+|     | num_paginas    | INT           | NOT NULL |
+|     | estoque        | INT           | NOT NULL |
++-----+----------------+---------------+----------+
+
++-------------------------------------------------+
+|                      VENDA                      |
++-----+----------------+---------------+----------+
+| KEY | NAME           | TYPE          | NULL     |
++-----+----------------+---------------+----------+
+| PK  | codigo         | INT           | NOT NULL |
+| FK  | email_cliente  | VARCHAR(100)  | NOT NULL |
+|     | preco_total    | DECIMAL(6, 2) | NOT NULL |
+|     | desconto       | DECIMAL(6, 2) | NOT NULL |
+|     | data_pagamento | DATE          | NULL     |
+|     | finalizada     | BIT           | NULL     |
++-----+----------------+---------------+----------+
+
++---------------------------------------+
+|               VENDEDOR                |
++-----+-------+--------------+----------+
+| KEY | NAME  | TYPE         | NULL     |
++-----+-------+--------------+----------+
+| PK  | login | VARCHAR(100) | NOT NULL |
+|     | senha | VARCHAR(100) | NOT NULL |
++-----+-------+--------------+----------+
