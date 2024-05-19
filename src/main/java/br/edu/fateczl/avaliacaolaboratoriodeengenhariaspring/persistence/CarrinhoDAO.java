@@ -23,7 +23,8 @@ public class CarrinhoDAO {
                 select iv.id,
                        l.titulo,
                        iv.quantidade,
-                       iv.total
+                       iv.total,
+                       l.codigo
                 from item_venda iv, venda v, livro l, cliente c
                 where iv.codigo_venda = v.codigo and
                       iv.codigo_livro = l.codigo and
@@ -46,6 +47,7 @@ public class CarrinhoDAO {
             livro.setTitulo(rs.getString(2));
             itemVenda.setQuantidade(rs.getInt(3));
             itemVenda.setTotal(rs.getDouble(4));
+            livro.setCodigo(rs.getInt(5));
 
             itemVenda.setLivro(livro);
             produtosCarrinho.add(itemVenda);
@@ -133,6 +135,22 @@ public class CarrinhoDAO {
         c.close();
     }
 
+    public void diminuirEstoque(List<ItemVenda> itens) throws SQLException, ClassNotFoundException {
+        Connection c= gDao.getConnection();
+        String sql = "CALL spDiminuirEstoque ?, ?";
+        CallableStatement cs = c.prepareCall(sql);
+
+        for (ItemVenda itemVenda : itens) {
+            cs.setInt(1, itemVenda.getQuantidade());
+            cs.setInt(2, itemVenda.getLivro().getCodigo());
+
+            cs.execute();
+        }
+
+        cs.close();
+        c.close();
+    }
+
     public boolean verificarDescontoAno(String email) throws SQLException, ClassNotFoundException {
         Connection c= gDao.getConnection();
         String sql= """
@@ -183,7 +201,7 @@ public class CarrinhoDAO {
 
     public int novoCarrinho(String email) throws SQLException, ClassNotFoundException {
         Connection c= gDao.getConnection();
-        String sql = "CALL spNovoCarrinho (?";
+        String sql = "CALL spNovoCarrinho ?";
         CallableStatement cs = c.prepareCall(sql);
         cs.setString(1, email);
         cs.execute();

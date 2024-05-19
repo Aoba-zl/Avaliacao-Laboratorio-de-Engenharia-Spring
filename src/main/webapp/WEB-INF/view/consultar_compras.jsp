@@ -97,7 +97,6 @@
                        value="${total}" disabled>
 
             </div>
-            <div><input type="submit"></div>
         </form>
     </main>
 </div>

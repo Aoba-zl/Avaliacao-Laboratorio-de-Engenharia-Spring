@@ -30,12 +30,10 @@ public class VendaDAO {
                        convert(varchar(10), v.data_pagamento, 103) as dataformatada,
                        v.preco_total,
                        v.finalizada
-                from venda v, livro l, item_venda iv, cliente c
-                where v.codigo = iv.codigo_venda and
-                      l.codigo = iv.codigo_livro and
-                      v.email_cliente = c.email and
-                      c.email = ?
-                group by v.codigo, v.data_pagamento, v.preco_total, v.finalizada
+                from venda v, cliente c
+                where v.email_cliente = c.email and
+                    v.data_pagamento is not null and
+                    c.email = ?
                 """;
         PreparedStatement ps = c.prepareStatement(sql);
         ps.setString(1, email);

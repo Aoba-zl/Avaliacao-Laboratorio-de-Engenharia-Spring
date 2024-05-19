@@ -70,6 +70,9 @@ public class CarrinhoController {
                     }
                 }
             }
+            else {
+                calcularTotal(email);
+            }
         } catch (SQLException | ClassNotFoundException e) {
             erro = e.getMessage();
         } finally {
@@ -90,7 +93,7 @@ public class CarrinhoController {
         String botao= allRequestParam.get("botao");
 //        Cookie[] cookies = req.getCookies();
 //        String email = valCoockie.buscaValorCookie("login", cookies);
-        String email = "";
+        String email = "teste";
 
         String erro= "";
         String saida= "";
@@ -107,6 +110,8 @@ public class CarrinhoController {
                         calcularTotal(email);
                         codigo_venda = carrinhoDAO.consultarVenda(email);
                         carrinhoDAO.finalizarCompra(codigo_venda, total, desconto);
+                        // Diminuir estoque dos produtos comprados
+                        carrinhoDAO.diminuirEstoque(produtosCarrinho);
                         saida = "Compra finalizada com sucesso!";
 
                         stringDesconto = "";
@@ -143,6 +148,12 @@ public class CarrinhoController {
         return new ModelAndView("carrinho");
     }
 
+    /**
+     * Atualiza os preços do carrinho de um email
+     * @param email o email do cliente
+     * @throws SQLException Trata erros de SQL
+     * @throws ClassNotFoundException Trata erros de Classe não encontrada
+     */
     private void calcularTotal(String email) throws SQLException, ClassNotFoundException {
         int total_livros= 0;
         for (ItemVenda item : produtosCarrinho){

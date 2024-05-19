@@ -20,7 +20,6 @@
             <div>
                 <h1>Carrinho</h1>
             </div>
-            <input type="submit" value="Refresh">
             <div class="tabela_container">
                 <table>
                     <thead>

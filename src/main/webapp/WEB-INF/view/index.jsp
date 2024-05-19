@@ -14,7 +14,8 @@
   <header>
     <a href="${pageContext.request.contextPath}/index">Home</a>
     <a href="${pageContext.request.contextPath}/carrinho">Carrinho</a>
-    <a href="login_geral.jsp">Conta</a>
+<%--    <a href="login_geral.jsp">Conta</a>--%>
+    <a href="${pageContext.request.contextPath}/consultar_compras">Consultar compras TESTE</a>
   </header>
 </div>
 <main>

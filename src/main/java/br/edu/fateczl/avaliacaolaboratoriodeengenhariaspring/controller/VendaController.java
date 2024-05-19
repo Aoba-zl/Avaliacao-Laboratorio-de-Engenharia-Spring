@@ -38,7 +38,7 @@ public class VendaController {
         String cmd= allRequestParam.get("acao");
 //        Cookie[] cookies = req.getCookies();
 //        String email = valCoockie.buscaValorCookie("login", cookies);
-        String email = "";
+        String email = "teste";
 
 
         String erro = "";
@@ -71,7 +71,7 @@ public class VendaController {
                     subTotalFormatado = formatoMoeda.format(subTotal);
 
 
-                    saida = "Detalhes da compra carregado com sucesso";
+                    saida = "Detalhes da compra carregados com sucesso";
                 }
             }
 
@@ -93,27 +93,7 @@ public class VendaController {
 
     @RequestMapping(name = "consultar_compras", value = "/consultar_compras", method = RequestMethod.POST)
     public ModelAndView doPost(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
-        String erro = "";
-        String saida = "";
-//        Cookie[] cookies = req.getCookies();
-//        String email = valCoockie.buscaValorCookie("login", cookies);
-        String email= "";
 
-        try {
-            vendas = vendaDAO.listarCompras(email); // TEST
-            if (vendas.isEmpty()){
-                saida = "Cliente não possui compras registradas";
-            }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            erro = e.getMessage();
-        } finally {
-            model.addAttribute("vendas", vendas);
-            model.addAttribute("itens", itens);
-
-            model.addAttribute("erro", erro);
-            model.addAttribute("saida", saida);
-        }
         return new ModelAndView("consultar_compras");
     }
 }
