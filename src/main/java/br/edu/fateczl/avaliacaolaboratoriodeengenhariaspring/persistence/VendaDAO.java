@@ -1,6 +1,7 @@
 package br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence;
 
 
+import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Cliente;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.ItemVenda;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Livro;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Venda;
@@ -99,5 +100,59 @@ public class VendaDAO {
         c.close();
 
         return venda;
+    }
+
+    public List<Venda> listarVendas() throws SQLException, ClassNotFoundException {
+        List<Venda> vendas = new ArrayList<>();
+        Connection c= gDao.getConnection();
+        String sql= """
+                select email_cliente,
+                       convert(varchar(10), data_pagamento, 103) as dataformatada,
+                       preco_total,
+                       finalizada,
+                       codigo
+                from venda
+                where data_pagamento is not null
+                """;
+        PreparedStatement ps = c.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Venda venda = new Venda();
+            Cliente cliente= new Cliente();
+
+            cliente.setEmail(rs.getString("email_cliente"));
+            venda.setDataPagamento((rs.getString("dataformatada")));
+            venda.setPrecoTotal(rs.getDouble("preco_total"));
+            venda.setFinalizada(rs.getBoolean("finalizada"));
+            venda.setCodigo(rs.getInt("codigo"));
+
+            venda.setCliente(cliente);
+            vendas.add(venda);
+        }
+
+        rs.close();
+        ps.close();
+        c.close();
+
+        return vendas;
+    }
+
+    public void atualizarStatus(Venda venda) throws SQLException, ClassNotFoundException {
+
+        Connection c= gDao.getConnection();
+        String sql= """
+                update venda
+                set finalizada = 1
+                where codigo = ?
+                """;
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.setInt(1, venda.getCodigo());
+
+        ps.executeUpdate();
+
+        c.close();
+        ps.close();
+
     }
 }

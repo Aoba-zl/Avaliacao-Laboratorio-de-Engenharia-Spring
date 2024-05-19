@@ -21,7 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @Controller
-public class VendaController {
+public class ConsultarComprasController {
     ManipularCoockies valCoockie = new ManipularCoockies();
 
     @Autowired
