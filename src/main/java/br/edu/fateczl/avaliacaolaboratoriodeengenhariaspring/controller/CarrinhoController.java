@@ -3,7 +3,6 @@ package br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.controller;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.ItemVenda;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Venda;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence.CarrinhoDAO;
-import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.utils.ManipularCoockies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,31 +17,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class CarrinhoController {
     @Autowired
     CarrinhoDAO carrinhoDAO;
 
-    ManipularCoockies valCoockie = new ManipularCoockies();
-
     Venda carrinho = new Venda();
     List<ItemVenda> produtosCarrinho = new ArrayList<>();
     double subTotal= 0;
     double desconto= 0;
-    double total;
+    double total = 0;
     String stringSubTotal= "";
     String stringDesconto= "";
     String stringTotal= "";
 
 
     @RequestMapping(name = "carrinho", value = "/carrinho", method = RequestMethod.GET)
-    public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
+    public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model,
+    		HttpServletRequest request) {
         String item_codigo= allRequestParam.get("codigo");
         String botao= allRequestParam.get("acao");
-//        Cookie[] cookies = req.getCookies();
-//        String email = valCoockie.buscaValorCookie("login", cookies);
-        String email = "teste";
+        String email = "";
+        HttpSession session = request.getSession(false);
+
+        if (session != null)
+        {
+        	email = (String) session.getAttribute("login_c");
+        	email = email == null ? "" : email;
+        }
 
         String erro= "";
         String saida= "";
@@ -89,11 +94,17 @@ public class CarrinhoController {
     }
 
     @RequestMapping(name = "carrinho", value = "/carrinho", method = RequestMethod.POST)
-    public ModelAndView doPost(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
+    public ModelAndView doPost(@RequestParam Map<String, String> allRequestParam, ModelMap model,
+    		HttpServletRequest request) {
         String botao= allRequestParam.get("botao");
-//        Cookie[] cookies = req.getCookies();
-//        String email = valCoockie.buscaValorCookie("login", cookies);
-        String email = "teste";
+        String email = "";
+        HttpSession session = request.getSession(false);
+
+        if (session != null)
+        {
+            email = (String) session.getAttribute("login_c");
+            email = email == null ? "" : email;
+        }
 
         String erro= "";
         String saida= "";
@@ -154,6 +165,7 @@ public class CarrinhoController {
      * @throws SQLException Trata erros de SQL
      * @throws ClassNotFoundException Trata erros de Classe não encontrada
      */
+    // TODO: A soma é feita Toda vez que o carrinho atualiza. Subindo o preço infinitamente
     private void calcularTotal(String email) throws SQLException, ClassNotFoundException {
         int total_livros= 0;
         for (ItemVenda item : produtosCarrinho){

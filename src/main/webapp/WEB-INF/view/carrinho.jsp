@@ -11,8 +11,8 @@
 </head>
 <body>
     <header>
-        <a href="${pageContext.request.contextPath}/index">Home</a>
-        <a onclick="conta()">Conta</a>
+        <a href="index">Home</a> 
+			<a onclick="conta()">Conta</a>
     </header>
 <div>
     <main>
@@ -72,33 +72,13 @@
 </div>
 </body>
 <script>
-    function cookieExists(cookieName) {
-        // Separe todos os cookies em um array
-        const cookiesArray = document.cookie.split('; ');
-
-        // Verifique se o cookieName está presente no array de cookies
-        for (let i = 0; i < cookiesArray.length; i++) {
-            const cookie = cookiesArray[i];
-            const [name, value] = cookie.split('=');
-            if (name === cookieName) {
-                return true;
-            }
-        }
-
-        // Retorna false se o cookie não for encontrado
-        return false;
-    }
-
-    function conta()
-    {
-        if (cookieExists('login'))
-        {
-            window.location.href = "${pageContext.request.contextPath}/manter_cliente.jsp"
-        }
-        else
-        {
-            window.location.href = "${pageContext.request.contextPath}/login_cliente.jsp"
-        }
-    }
+	function conta() {
+		<c:if test="${not empty login_c}">
+		window.location.href = "manter_cliente"
+		</c:if>
+		<c:if test="${empty login_c}">
+		window.location.href = "login_cliente"
+		</c:if>
+	}
 </script>
 </html>

@@ -13,10 +13,10 @@
   <body>
     <div>
       <header>
-        <a href="${pageContext.request.contextPath}/index.jsp">Home</a>
-        <a href="${pageContext.request.contextPath}/login_cliente.jsp">Carrinho</a>
-        <a href="${pageContext.request.contextPath}/login_geral.jsp">Conta</a>
-      </header>
+			<a href="index">Home</a> 
+			<a onclick="carrinho()">Carrinho</a> 
+			<a onclick="conta()">Conta</a>
+		</header>
     </div>
     <form action="" method="post">
       <main>
@@ -24,17 +24,34 @@
         <div class="linha">
           <div style="width: 50%; height: 50%">
             <h3>Vendedor</h3>
-            <p class="btn"><a style="color: white" href="${pageContext.request.contextPath}/login_vendedor.jsp">Login Vendedor</a></p>
+            <p class="btn"><a style="color: white" href="login_vendedor">Login Vendedor</a></p>
           </div>
           <div style="margin-left: 10px; width: 50%; height: 50%">
             <h3>Cliente</h3>
-            <p class="btn"><a style="color: white" href="${pageContext.request.contextPath}/login_cliente.jsp">Login Cliente</a></p>
+            <p class="btn"><a style="color: white" href="login_cliente">Login Cliente</a></p>
 
-            <p class="btn"><a style="color: white" href="${pageContext.request.contextPath}/cadastrar_cliente.jsp">Criar uma Conta</a></p>
+            <p class="btn"><a style="color: white" href="cadastrar_cliente">Criar uma Conta</a></p>
           </div>
         </div>
       </main>
     </form>
   </body>
+<script>
+	function conta() {
+		<c:if test="${not empty login_c}">
+		window.location.href = "manter_cliente"
+		</c:if>
+		<c:if test="${empty login_c}">
+		window.location.href = "login_cliente"
+		</c:if>
+	}
+	function carrinho() {
+		<c:if test="${not empty login_c}">
+		window.location.href = "carrinho"
+		</c:if>
+		<c:if test="${empty login_c}">
+		window.location.href = "login_cliente"
+		</c:if>
+	}
+</script>
 </html>
-<!-- https://24fr6y.csb.app/login_geral.html -->

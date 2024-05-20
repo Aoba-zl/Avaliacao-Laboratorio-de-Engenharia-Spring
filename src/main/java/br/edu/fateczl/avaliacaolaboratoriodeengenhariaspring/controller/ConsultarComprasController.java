@@ -4,7 +4,9 @@ import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.ItemVenda;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Venda;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence.GenericDAO;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence.VendaDAO;
-import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.utils.ManipularCoockies;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,8 +24,6 @@ import java.util.Map;
 
 @Controller
 public class ConsultarComprasController {
-    ManipularCoockies valCoockie = new ManipularCoockies();
-
     @Autowired
     GenericDAO genericDAO;
     @Autowired
@@ -33,12 +33,16 @@ public class ConsultarComprasController {
     List<ItemVenda> itens= new ArrayList<>();
 
     @RequestMapping(name = "consultar_compras", value = "/consultar_compras", method = RequestMethod.GET)
-    public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
+    public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model,
+    		HttpServletRequest request) {
         String venda_codigo = allRequestParam.get("codigo");
         String cmd= allRequestParam.get("acao");
-//        Cookie[] cookies = req.getCookies();
-//        String email = valCoockie.buscaValorCookie("login", cookies);
-        String email = "teste";
+        String email = "";
+        HttpSession session = request.getSession(false);
+
+        // TODO: corrigir validação de email
+        if (session != null)
+        	email = (String) session.getAttribute("login_c");
 
 
         String erro = "";

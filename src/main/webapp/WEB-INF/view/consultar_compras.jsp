@@ -11,9 +11,9 @@
 </head>
 <body>
     <header>
-        <a href="index.jsp">Home</a>
-        <a href="login_cliente.jsp">Carrinho</a>
-        <a href="login_geral.jsp">Conta</a>
+		<a href="index">Home</a> 
+		<a onclick="carrinho()">Carrinho</a> 
+		<a onclick="conta()">Conta</a>
     </header>
 <div>
     <main>
@@ -101,4 +101,22 @@
     </main>
 </div>
 </body>
+<script>
+	function conta() {
+		<c:if test="${not empty login_c}">
+		window.location.href = "manter_cliente"
+		</c:if>
+		<c:if test="${empty login_c}">
+		window.location.href = "login_cliente"
+		</c:if>
+	}
+	function carrinho() {
+		<c:if test="${not empty login_c}">
+		window.location.href = "carrinho"
+		</c:if>
+		<c:if test="${empty login_c}">
+		window.location.href = "login_cliente"
+		</c:if>
+	}
+</script>
 </html>

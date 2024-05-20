@@ -1,10 +1,17 @@
 package br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+
+import org.springframework.stereotype.Repository;
 
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Cliente;
 
-import java.sql.*;
-
+@Repository
 public class ClienteDAO
 {
     private GenericDAO gDAO;

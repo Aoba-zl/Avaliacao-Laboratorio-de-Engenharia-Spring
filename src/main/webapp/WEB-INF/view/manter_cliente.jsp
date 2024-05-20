@@ -13,8 +13,8 @@
 <body>
 <div>
     <header>
-        <a href="${pageContext.request.contextPath}/index.jsp">Home</a>
-        <a href="${pageContext.request.contextPath}/consultar_compras.jsp">Compras</a>
+        <a href="index">Home</a> 
+        <a href="consultar_compras">Compras</a>
     </header>
 </div>
 <main>
@@ -57,6 +57,7 @@
         </c:if>
         <div class="linha">
             <input class="esticado" type="submit" name="botao" value="Alterar Dados" />
+            <input class="esticado" type="submit" name="botao" value="Sair" />
         </div>
     </form>
 </main>
