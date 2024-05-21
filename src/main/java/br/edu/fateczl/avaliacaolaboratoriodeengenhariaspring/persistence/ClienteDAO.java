@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -19,23 +21,6 @@ public class ClienteDAO
     public ClienteDAO (GenericDAO gDAO)
     {
         this.gDAO = gDAO;
-    }
-
-    public String validarLogin(Cliente cliente) throws SQLException, ClassNotFoundException
-    {
-        Connection con = gDAO.getConnection();
-        String sql = "SELECT dbo.fn_validar_login(?, ?) AS saida";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, cliente.getEmail());
-        ps.setString(2, cliente.getSenha());
-
-        String saida = "";
-        ResultSet rs = ps.executeQuery();
-        if (rs.next())
-            saida = rs.getString("saida");
-
-        con.close();
-        return saida;
     }
 
     public String inserir(Cliente cliente) throws SQLException, ClassNotFoundException
@@ -93,6 +78,32 @@ public class ClienteDAO
 
         con.close();
         return cliente;
+    }
+    
+    public List<Cliente> pesquisarClientes (String tipoBusca, String valorBusca) 
+    		throws SQLException, ClassNotFoundException
+    {
+    	Connection con = gDAO.getConnection();
+    	String sql = "SELECT fn.email, fn.nome, fn.enderco_log AS endereco ";
+    	sql += "FROM fn_buscar_clientes(?, ?) AS fn";
+    	PreparedStatement ps = con.prepareStatement(sql);
+    	ps.setString(1, tipoBusca);
+    	ps.setString(2, valorBusca);
+    	
+    	ResultSet rs = ps.executeQuery();
+    	List<Cliente> clientes = new ArrayList<>();
+    	
+    	while (rs.next())
+    	{
+    		Cliente c = new Cliente();
+    		c.setEmail(rs.getString("email"));
+            c.setNome(rs.getString("nome"));
+            c.setEndereco_logradouro(rs.getString("endereco"));
+    		
+    		clientes.add(c);
+    	}
+    	
+    	return clientes;
     }
 
 

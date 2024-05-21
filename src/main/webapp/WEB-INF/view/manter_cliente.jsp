@@ -14,7 +14,9 @@
 <div>
     <header>
         <a href="index">Home</a> 
-        <a href="consultar_compras">Compras</a>
+        <c:if test="${not empty login_c}">
+		<a href="consultar_compras">Compras</a>
+		</c:if>
     </header>
 </div>
 <main>
@@ -22,7 +24,8 @@
         <h1>Manter Cliente</h1>
         <div class="linha">
             <label for="email">E-mail:</label>
-            <input type="text" name="email" id="email" value='<c:out value="${cliente.email}"/>' />
+            <input disabled="disabled" type="text" value='<c:out value="${cliente.email}"/>' />
+            <input hidden type="text" name="email" id="email" value='<c:out value="${cliente.email}"/>' />
         </div>
         <div class="linha">
             <label for="senha">Senha:</label>
@@ -57,7 +60,12 @@
         </c:if>
         <div class="linha">
             <input class="esticado" type="submit" name="botao" value="Alterar Dados" />
-            <input class="esticado" type="submit" name="botao" value="Sair" />
+            <c:if test="${not empty login_c}">
+            	<input class="esticado" type="submit" name="botao" value="Sair" />
+			</c:if>
+			<c:if test="${not empty login_v}">
+				<input class="esticado" type="submit" name="botao" value="Voltar" />
+			</c:if>
         </div>
     </form>
 </main>

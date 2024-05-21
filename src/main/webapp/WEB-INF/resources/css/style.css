@@ -255,6 +255,16 @@ header a:hover {
     border-collapse: collapse;
 }
 
+.tabela_clientes {
+  display: block;
+  margin-right: 10px;
+  margin-left: 10px;
+  height: 350px;
+  overflow-y: auto;
+  width: 100%;
+  border-collapse: collapse;
+}
+
 table {
     width: 100%;
 }

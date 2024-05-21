@@ -13,8 +13,16 @@
 	<div>
 		<header>
 			<a href="index">Home</a>
+			<c:if test="${not empty login_v}">
+			<a href="index">Manter Livro</a>
+			<a href="consultar_clientes">Consultar Clientes</a>
+			<a href="consultar_vendas">Consultar Vendas</a>
+			<a href="logout">Logout</a>
+			</c:if>
+			<c:if test="${empty login_v}">
 			<a onclick="carrinho()">Carrinho</a>
 			<a onclick="conta()">Conta</a>
+			</c:if>
 		</header>
 	</div>
 	<main>
@@ -68,11 +76,13 @@
 </body>
 <script>
 	function conta() {
-		<c:if test="${not empty login_c}">
-		window.location.href = "manter_cliente"
-		</c:if>
+		// sem login
 		<c:if test="${empty login_c}">
 		window.location.href = "login_geral"
+		</c:if>
+		// login cliente
+		<c:if test="${not empty login_c}">
+		window.location.href = "manter_cliente"
 		</c:if>
 	}
 	function carrinho() {

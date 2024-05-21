@@ -4,7 +4,6 @@ import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.ItemVenda;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Venda;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence.GenericDAO;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence.VendaDAO;
-import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.utils.ManipularCoockies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,8 +21,6 @@ import java.util.Map;
 
 @Controller
 public class ConsultarVendasController {
-    ManipularCoockies valCoockie = new ManipularCoockies();
-
     @Autowired
     GenericDAO genericDAO;
     @Autowired
@@ -36,9 +33,6 @@ public class ConsultarVendasController {
     public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
         String venda_codigo = allRequestParam.get("codigo");
         String cmd= allRequestParam.get("acao");
-//        Cookie[] cookies = req.getCookies();
-//        String email = valCoockie.buscaValorCookie("login", cookies);
-
 
         String erro = "";
         String saida = "";

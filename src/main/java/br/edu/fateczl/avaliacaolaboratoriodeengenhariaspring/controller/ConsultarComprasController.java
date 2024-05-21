@@ -40,10 +40,11 @@ public class ConsultarComprasController {
         String email = "";
         HttpSession session = request.getSession(false);
 
-        // TODO: corrigir validação de email
         if (session != null)
+        {
         	email = (String) session.getAttribute("login_c");
-
+        	email = email == null ? "" : email;
+        }
 
         String erro = "";
         String saida = "";

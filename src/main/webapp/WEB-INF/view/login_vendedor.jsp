@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,19 +16,29 @@
         <a href="login_cliente">Login Cliente</a>
       </header>
     </div>
-    <form action="" method="post">
+    <form action="login_vendedor" method="post">
       <main>
         <h1>Login Vendedor</h1>
         <div class="linha">
           <label for="login">Login:</label>
-          <input type="text" name="login" id="login" />
+          <input type="text" name="login" id="login" value='<c:out value="${vendedor.login}"/>' />
         </div>
         <div class="linha">
           <label for="senha">Senha:</label>
-          <input type="password" name="senha" id="senha" />
+          <input type="password" name="senha" id="senha" value='<c:out value="${vendedor.senha}"/>' />
         </div>
+        <c:if test="${not empty saida}">
+          <div class="linha">
+            <h3>Saída: <c:out value="${saida}"/></h3>
+          </div>
+        </c:if>
+        <c:if test="${not empty erro}">
+          <div class="linha">
+            <h3>Erro: <c:out value="${erro}"/></h3>
+          </div>
+        </c:if>
         <div>
-          <input type="submit" value="Realizar Login" />
+          <input type="submit" name="botao" value="Realizar Login" />
         </div>
       </main>
     </form>

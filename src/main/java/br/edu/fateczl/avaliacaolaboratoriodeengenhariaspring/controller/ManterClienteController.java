@@ -26,11 +26,12 @@ public class ManterClienteController {
     private ClienteDAO cdao;
 
     @RequestMapping(name = "manter_cliente", value = "/manter_cliente", method = RequestMethod.GET)
-    public ModelAndView doGet(ModelMap model, HttpServletRequest request) {
-        String login_c= "";
+    public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model, 
+    		HttpServletRequest request) {
+        String login_c = allRequestParam.get("email") == null ? "" : allRequestParam.get("email");
         HttpSession session = request.getSession(false);
 
-        if (session != null)
+        if (session != null && login_c.equalsIgnoreCase(""))
         {
         	login_c = (String) session.getAttribute("login_c");
         	login_c = login_c == null ? "" : login_c;
@@ -97,6 +98,10 @@ public class ManterClienteController {
             {
             	session.removeAttribute("login_c");
                 return new ModelAndView("redirect:/index");
+            }
+            if (cmd.equalsIgnoreCase("Voltar"))
+            {
+                return new ModelAndView("redirect:/consultar_clientes");
             }
         }
         catch (SQLException | ClassNotFoundException e)

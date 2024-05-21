@@ -10,11 +10,14 @@
     <link rel="stylesheet" type="text/css" href='<c:url value = "./resources/css/style.css"/>' />
 </head>
 <body>
-<header>
-    <a href="index.jsp">Home</a>
-    <a href="login_cliente.jsp">Carrinho</a>
-    <a href="login_geral.jsp">Conta</a>
-</header>
+<div>
+    <header>
+        <a href="index">Home</a>
+        <a href="index">Manter Livro</a>
+        <a href="consultar_clientes">Consultar Clientes</a>
+        <a href="logout">Logout</a>
+    </header>
+</div>
 <div>
     <main>
         <form action="consultar_vendas" method="post">

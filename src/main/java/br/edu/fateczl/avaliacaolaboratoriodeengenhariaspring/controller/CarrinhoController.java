@@ -165,7 +165,6 @@ public class CarrinhoController {
      * @throws SQLException Trata erros de SQL
      * @throws ClassNotFoundException Trata erros de Classe não encontrada
      */
-    // TODO: A soma é feita Toda vez que o carrinho atualiza. Subindo o preço infinitamente
     private void calcularTotal(String email) throws SQLException, ClassNotFoundException {
         int total_livros= 0;
         for (ItemVenda item : produtosCarrinho){
