@@ -33,7 +33,11 @@
                         <c:forEach var="p" items="${produtosCarrinho}">
                             <tr>
                                 <td><c:out value="${p.livro.titulo}" /></td>
-                                <td><c:out value="${p.quantidade}" /></td>
+                                <td>
+                                    <a class="mais_e_menos" href="${pageContext.request.contextPath}/carrinho?livro_codigo=${p.livro.codigo}&codigo=${p.id}&acao=Diminuir"> - </a>
+                                    <c:out value="${p.quantidade}" />
+                                    <a class="mais_e_menos" href="${pageContext.request.contextPath}/carrinho?livro_codigo=${p.livro.codigo}&codigo=${p.id}&acao=Aumentar"> + </a>
+                                </td>
                                 <td><fmt:formatNumber value="${p.total}" type="currency" currencyCode="BRL" /></td>
                                 <td><a href="${pageContext.request.contextPath}/carrinho?codigo=${p.id}&acao=Remover">Remover</a></td>
                             </tr>

@@ -39,14 +39,18 @@ public class CarrinhoController {
     @RequestMapping(name = "carrinho", value = "/carrinho", method = RequestMethod.GET)
     public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
         String item_codigo= allRequestParam.get("codigo");
+        String livro_codigo= allRequestParam.get("livro_codigo");
         String botao= allRequestParam.get("acao");
 //        Cookie[] cookies = req.getCookies();
 //        String email = valCoockie.buscaValorCookie("login", cookies);
         String email = "teste";
 
+
         String erro= "";
         String saida= "";
         int codigo_venda;
+        int quantidade= 0;
+        double preco_livro = 0.0;
         subTotal = 0;
         desconto = 0;
         total = 0;
@@ -62,17 +66,60 @@ public class CarrinhoController {
                     carrinho = carrinhoDAO.getProdutosCarrinho(email);
                     produtosCarrinho = carrinho.getItens();
 
-                    calcularTotal(email);
-
                     if (produtosCarrinho.isEmpty()){
                         codigo_venda = carrinhoDAO.consultarVenda(email);
                         carrinhoDAO.deletarCarrinho(codigo_venda);
+                    }
+                    else {
+                        calcularTotal(email);
+                    }
+
+                }
+                if (botao.equals("Aumentar")){
+                    for (ItemVenda item : produtosCarrinho){
+                        if (item.getLivro().getCodigo() == Integer.parseInt(livro_codigo)){
+                            quantidade = item.getQuantidade() + 1;
+                            preco_livro = item.getLivro().getPreco();
+                        }
+                    }
+
+                    if (carrinhoDAO.verificarEstoque(Integer.parseInt(livro_codigo), quantidade)){
+                        carrinhoDAO.alterarQuantidade(Integer.parseInt(livro_codigo), Integer.parseInt(item_codigo), quantidade, preco_livro);
+                        carrinho = carrinhoDAO.getProdutosCarrinho(email);
+                        produtosCarrinho = carrinho.getItens();
+
+                        calcularTotal(email);
+                    }
+                    else {
+                        erro = "Este produto não possui essa quantidade no estoque";
+                    }
+
+                }
+                if (botao.equals("Diminuir")){
+                    for (ItemVenda item : produtosCarrinho){
+                        if (item.getLivro().getCodigo() == Integer.parseInt(livro_codigo)){
+                            quantidade = item.getQuantidade() - 1;
+                            preco_livro = item.getLivro().getPreco();
+                        }
+
+                    }
+
+                    if (quantidade != 0){
+                        carrinhoDAO.alterarQuantidade(Integer.parseInt(livro_codigo), Integer.parseInt(item_codigo), quantidade, preco_livro);
+                        carrinho = carrinhoDAO.getProdutosCarrinho(email);
+                        produtosCarrinho = carrinho.getItens();
+
+                        calcularTotal(email);
+                    }
+                    else {
+                        erro = "Quantidade não pode ser abaixo de 1";
                     }
                 }
             }
             else {
                 calcularTotal(email);
             }
+
         } catch (SQLException | ClassNotFoundException e) {
             erro = e.getMessage();
         } finally {

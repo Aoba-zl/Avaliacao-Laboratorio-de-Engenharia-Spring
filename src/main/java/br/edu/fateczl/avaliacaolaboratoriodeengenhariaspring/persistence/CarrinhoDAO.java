@@ -24,7 +24,8 @@ public class CarrinhoDAO {
                        l.titulo,
                        iv.quantidade,
                        iv.total,
-                       l.codigo
+                       l.codigo,
+                       l.preco
                 from item_venda iv, venda v, livro l, cliente c
                 where iv.codigo_venda = v.codigo and
                       iv.codigo_livro = l.codigo and
@@ -48,6 +49,7 @@ public class CarrinhoDAO {
             itemVenda.setQuantidade(rs.getInt(3));
             itemVenda.setTotal(rs.getDouble(4));
             livro.setCodigo(rs.getInt(5));
+            livro.setPreco(rs.getDouble(6));
 
             itemVenda.setLivro(livro);
             produtosCarrinho.add(itemVenda);
@@ -222,5 +224,49 @@ public class CarrinhoDAO {
 
         cs.close();
         c.close();
+    }
+
+    public boolean verificarEstoque(int codigo_livro, int novaQuantidade) throws SQLException, ClassNotFoundException {
+        Connection c= gDao.getConnection();
+        String sql= """
+                select *
+                from livro
+                where codigo = ? and
+                      estoque >= ?
+                """;
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.setInt(1, codigo_livro);
+        ps.setInt(2, novaQuantidade);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return true;
+        }
+
+
+        return false;
+    }
+
+    public void alterarQuantidade(int codigo_livro, int id_item, int novaQuantidade, double preco_livro) throws SQLException, ClassNotFoundException {
+        Connection c= gDao.getConnection();
+        double subTotal= preco_livro * novaQuantidade;
+        String sql = """
+                update item_venda
+                set quantidade= ?, total = ?
+                where id = ? and
+                      codigo_livro = ?
+                """;
+        PreparedStatement ps= c.prepareStatement(sql);
+        ps.setInt(1, novaQuantidade);
+        ps.setDouble(2, subTotal);
+        ps.setInt(3, id_item);
+        ps.setInt(4, codigo_livro);
+
+        ps.executeUpdate();
+
+        c.close();
+        ps.close();
+
     }
 }
