@@ -9,18 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-public class IndexController {
+public class ListaLivrosController {
     @Autowired
     LivroDAO lDao;
 
-    @RequestMapping(name = "index", value = "/index", method = RequestMethod.GET)
+    @RequestMapping(name = "lista_livros", value = "/lista_livros", method = RequestMethod.GET)
     public ModelAndView doGet(ModelMap model) {
         List<Livro> livros = new ArrayList<>();
         String erro = "";
@@ -34,10 +33,10 @@ public class IndexController {
             model.addAttribute("erro", erro);
 
         }
-        return new ModelAndView("index");
+        return new ModelAndView("lista_livros");
     }
 
-    @RequestMapping(name = "index", value = "/index", method = RequestMethod.POST)
+    @RequestMapping(name = "lista_livros", value = "/lista_livros", method = RequestMethod.POST)
     public ModelAndView doPost(@RequestParam Map<String, String> allRequestParam, ModelMap model) {
         List<Livro> livros = new ArrayList<>();
         String busca= allRequestParam.get("nome");
@@ -52,6 +51,6 @@ public class IndexController {
             model.addAttribute("erro", erro);
 
         }
-        return new ModelAndView("index");
+        return new ModelAndView("lista_livros");
     }
 }
