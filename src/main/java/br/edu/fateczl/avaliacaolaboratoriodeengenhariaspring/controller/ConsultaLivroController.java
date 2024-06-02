@@ -25,10 +25,13 @@ public class ConsultaLivroController {
     @Autowired
     CarrinhoDAO cDAO;
 
+    String codigo;
+
+
     @RequestMapping(name = "iconsulta_livro", value = "/consulta_livro", method = RequestMethod.GET)
     public ModelAndView doGet(@RequestParam Map<String, String> allRequestParam, ModelMap model, 
     		HttpServletRequest request) {
-        String codigo= allRequestParam.get("codigo");
+        codigo= allRequestParam.get("codigo");
         String erro = "";
         Livro l = new Livro();
 
@@ -50,7 +53,6 @@ public class ConsultaLivroController {
     public ModelAndView doPost(@RequestParam Map<String, String> allRequestParam, ModelMap model, 
     		HttpServletRequest request) {
         String qntd = allRequestParam.get("qntd");
-        String codigo = allRequestParam.get("codigoLivro");
         String erro = "";
         String saida = "";
         String email = "";
