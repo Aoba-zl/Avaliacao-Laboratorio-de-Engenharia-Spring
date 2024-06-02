@@ -9,7 +9,7 @@ BEGIN
             @total DECIMAL(6, 2),
             @total_carrinho DECIMAL (6,2),
             @estoque_atual INT
-    SELECT @total = preco FROM livro
+    SELECT @total = preco FROM livro where codigo = @livro
     SELECT @total_carrinho = preco_total FROM venda WHERE codigo = @venda
     SELECT @codigo = (MAX(id) + 1) FROM item_venda
     SELECT @estoque_atual = estoque FROM livro WHERE codigo = @livro
