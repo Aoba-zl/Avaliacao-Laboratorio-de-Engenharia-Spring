@@ -8,6 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Carrinho</title>
     <link rel="stylesheet" type="text/css" href='<c:url value = "./resources/css/style.css"/>' />
+
+    <script type="text/javascript">
+        window.onload = function() {
+            // Limpa a URL removendo os parâmetros de consulta
+            if (window.history.replaceState) {
+                const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.replaceState({ path: cleanUrl }, "", cleanUrl);
+            }
+        };
+    </script>
 </head>
 <body>
     <header>
