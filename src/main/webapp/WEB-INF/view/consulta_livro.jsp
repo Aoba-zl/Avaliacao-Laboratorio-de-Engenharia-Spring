@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,7 +74,8 @@
                     disabled
                     name="preco"
                     id="preco"
-                    value="R$${livro.preco}"
+                    value="<fmt:formatNumber value="${livro.preco}" type="currency"
+										currencyCode="BRL" />"
             >
         </div>
         <div class="linha">
