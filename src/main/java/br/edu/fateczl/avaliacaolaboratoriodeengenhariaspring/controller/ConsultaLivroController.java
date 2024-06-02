@@ -82,7 +82,7 @@ public class ConsultaLivroController {
 	        	else if (l.getEstoque() < Integer.parseInt(qntd)) {
 	                erro = "Quantidade inválida, por favor, tente novamente.";
 	
-	            } else {
+	            } else if (!cDAO.verificarLivroCarrinho(email, Integer.parseInt(codigo))) {
 	                v.setCodigo(cDAO.consultarVenda(email));
 	                if (v.getCodigo() == 0) {
 	                    v.setCodigo(cDAO.novoCarrinho(email));
@@ -92,6 +92,9 @@ public class ConsultaLivroController {
 	                l = lDao.visualizar(Integer.parseInt(codigo));
 	                saida = "Livro adicionado com sucesso";
 	            }
+                else {
+                    erro = "Este livro já esta no carrinho";
+                }
 	        }
 
         } catch (Exception e) {

@@ -226,6 +226,31 @@ public class CarrinhoDAO {
         c.close();
     }
 
+    public boolean verificarLivroCarrinho(String email, int codigo_livro) throws SQLException, ClassNotFoundException {
+        Connection c= gDao.getConnection();
+        String sql= """
+                select l.codigo
+                from item_venda iv, venda v, cliente c, livro l
+                where iv.codigo_livro = l.codigo and
+                      v.codigo = iv.codigo_venda and
+                      v.email_cliente = c.email and
+                      v.data_pagamento is null and
+                      c.email = ? and
+                      l.codigo = ?
+                """;
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.setString(1, email);
+        ps.setInt(2, codigo_livro);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean verificarEstoque(int codigo_livro, int novaQuantidade) throws SQLException, ClassNotFoundException {
         Connection c= gDao.getConnection();
         String sql= """
@@ -246,6 +271,45 @@ public class CarrinhoDAO {
 
 
         return false;
+    }
+
+    public int retornaEstoque(int codigo_livro) throws SQLException, ClassNotFoundException {
+        int estoque = 0;
+        Connection c= gDao.getConnection();
+        String sql= """
+                select estoque
+                from livro
+                where codigo = ?
+                """;
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.setInt(1, codigo_livro);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            estoque = rs.getInt(1);
+        }
+
+        return estoque;
+    }
+
+    public void atualizarQuantidade(int codigo_livro, int codigo_item, int quantidade) throws SQLException, ClassNotFoundException {
+        Connection c= gDao.getConnection();
+        String sql= """
+                update item_venda
+                set quantidade = ?
+                where id = ? and
+                      codigo_livro = ?
+                """;
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.setInt(1, quantidade);
+        ps.setInt(2, codigo_item);
+        ps.setInt(3, codigo_livro);
+
+        ps.execute();
+
+        c.close();
+
     }
 
     public void alterarQuantidade(int codigo_livro, int id_item, int novaQuantidade, double preco_livro) throws SQLException, ClassNotFoundException {

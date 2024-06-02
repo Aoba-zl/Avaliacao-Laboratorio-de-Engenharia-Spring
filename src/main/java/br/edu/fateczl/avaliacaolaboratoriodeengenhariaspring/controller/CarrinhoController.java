@@ -64,6 +64,8 @@ public class CarrinhoController {
             carrinho = carrinhoDAO.getProdutosCarrinho(email);
             produtosCarrinho = carrinho.getItens();
 
+            atualizarQuantidade();
+
             if (botao != null){
                 if (botao.equals("Remover")){
                     carrinhoDAO.removerProdutoCarrinho(Integer.parseInt(item_codigo));
@@ -239,4 +241,21 @@ public class CarrinhoController {
         stringDesconto = formatoMoeda.format(desconto);
         stringTotal = formatoMoeda.format(total);
     }
+
+    private void atualizarQuantidade() throws SQLException, ClassNotFoundException {
+        int estoque;
+        for (ItemVenda item : produtosCarrinho){
+            estoque = carrinhoDAO.retornaEstoque(item.getLivro().getCodigo());
+
+            if (estoque == 0){
+                produtosCarrinho.remove(item);
+                carrinhoDAO.removerProdutoCarrinho(item.getId());
+            }
+            else if (item.getQuantidade() > estoque) {
+                item.setQuantidade(estoque);
+                carrinhoDAO.atualizarQuantidade(item.getLivro().getCodigo(), item.getId(), estoque);
+            }
+        }
+    }
+
 }
