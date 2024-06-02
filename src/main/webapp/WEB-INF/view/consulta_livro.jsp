@@ -83,7 +83,7 @@
             <input disabled type="date" name="dt_publicacao" id="dt_publicacao" value="${livro.data_publicacao}"/>
         </div>
         <div class="linha">
-            <label for="num_paginas">Númoro de Páginas</label>
+            <label for="num_paginas">Número de Páginas</label>
             <input
                     type="text"
                     disabled
