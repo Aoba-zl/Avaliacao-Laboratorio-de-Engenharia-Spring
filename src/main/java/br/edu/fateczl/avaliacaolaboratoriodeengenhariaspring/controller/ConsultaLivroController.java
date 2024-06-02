@@ -74,7 +74,10 @@ public class ConsultaLivroController {
 	        }
 	        else
 	        {
-	        	if (l.getEstoque() < Integer.parseInt(qntd)) {
+                if (l.getEstoque() == 0 ){
+                    erro = "Livro indisponível";
+                }
+	        	else if (l.getEstoque() < Integer.parseInt(qntd)) {
 	                erro = "Quantidade inválida, por favor, tente novamente.";
 	
 	            } else {
