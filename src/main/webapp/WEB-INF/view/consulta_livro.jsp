@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,11 +12,17 @@
 </head>
 <body>
 <div>
-    	<header>
-			<a href="index">Home</a> 
-			<a onclick="carrinho()">Carrinho</a> 
-			<a onclick="conta()">Conta</a>
-		</header>
+    <header>
+		<a href="index">Home</a>
+		<c:if test="${not empty login_v}">
+		<a href="tela_principal_vendedor">Vendedor</a>
+		<a href="logout">Logout</a>
+		</c:if>
+		<c:if test="${empty login_v}">
+		<a onclick="carrinho()">Carrinho</a>
+		<a onclick="conta()">Conta</a>
+		</c:if>
+	</header>
 </div>
 <form action="consulta_livro" method="post">
     <main>
@@ -95,7 +104,10 @@
         <div class="linha">
             <label for="qntd">Quantidade:</label>
             <input type="number" min="1" name="qntd" id="qntd" value="${qntd}" />
-            <input type="submit" value="Adicionar ao Carrinho" />
+            <c:if test="${empty login_v}">
+			<input type="submit" value="Adicionar ao Carrinho" />
+			</c:if>
+            
         </div>
     </main>
 </form>

@@ -12,9 +12,9 @@
 <body>
 <div>
     <header>
-        <a href="${pageContext.request.contextPath}/index">Home</a>
-        <a href="${pageContext.request.contextPath}/carrinho">Carrinho</a>
-        <a href="login_geral.jsp">Conta</a>
+        <a href="index">Home</a>
+        <a href="tela_principal_vendedor">Vendedor</a>
+		<a href="logout">Logout</a>
     </header>
 </div>
 <main>

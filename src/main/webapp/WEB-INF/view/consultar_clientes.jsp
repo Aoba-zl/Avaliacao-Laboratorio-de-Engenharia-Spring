@@ -14,9 +14,8 @@
     <div>
         <header>
             <a href="index">Home</a>
-            <a href="index">Manter Livro</a>
-            <a href="consultar_vendas">Consultar Vendas</a>
-            <a href="logout">Logout</a>
+        	<a href="tela_principal_vendedor">Vendedor</a>
+			<a href="logout">Logout</a>
         </header>
     </div>
     <div>

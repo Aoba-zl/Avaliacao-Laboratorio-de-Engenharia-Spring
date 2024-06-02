@@ -12,9 +12,8 @@
 <body>
 <div>
     <header>
-        <a href="${pageContext.request.contextPath}/index">Home</a>
-        <a href="${pageContext.request.contextPath}/carrinho">Carrinho</a>
-        <a href="login_geral.jsp">Conta</a>
+        <a href="index">Home</a>
+		<a href="logout">Logout</a>
     </header>
 </div>
 <main>
@@ -23,17 +22,17 @@
             <tbody>
             <tr>
                 <td style="border: none; background-color: transparent">
-                    <a class="btn" style="text-decoration: none;" href="${pageContext.request.contextPath}/">Manter Cliente</a></td>
+                    <a class="btn" style="text-decoration: none;" href="consultar_clientes">Consultar Cliente</a></td>
             </tr>
             <tr style="height: 20px"></tr>
             <tr>
                 <td style="border: none; background-color: transparent">
-                    <a class="btn" style="text-decoration: none;" href="${pageContext.request.contextPath}/lista_livros">Manter Livro</a></td>
+                    <a class="btn" style="text-decoration: none;" href="lista_livros">Manter Livro</a></td>
             </tr>
             <tr style="height: 20px"></tr>
             <tr>
                 <td style="border: none; background-color: transparent">
-                    <a class="btn" style="text-decoration: none;" href="${pageContext.request.contextPath}/">Consultar Vendas</a></td>
+                    <a class="btn" style="text-decoration: none;" href="consultar_vendas">Consultar Vendas</a></td>
             </tr>
             </tbody>
         </table>

@@ -1,4 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +12,9 @@
 <body>
 <div>
     <header>
-        <a href="${pageContext.request.contextPath}/index">Home</a>
-        <a href="${pageContext.request.contextPath}/carrinho">Carrinho</a>
-        <a href="login_geral.jsp">Conta</a>
+    	<a href="index">Home</a>
+        <a href="tela_principal_vendedor">Vendedor</a>
+		<a href="logout">Logout</a>
     </header>
 </div>
 <form action="manter_livro" method="post">

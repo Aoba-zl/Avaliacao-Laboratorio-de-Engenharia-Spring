@@ -14,9 +14,7 @@
 		<header>
 			<a href="index">Home</a>
 			<c:if test="${not empty login_v}">
-			<a href="index">Manter Livro</a>
-			<a href="consultar_clientes">Consultar Clientes</a>
-			<a href="consultar_vendas">Consultar Vendas</a>
+			<a href="tela_principal_vendedor">Vendedor</a>
 			<a href="logout">Logout</a>
 			</c:if>
 			<c:if test="${empty login_v}">
