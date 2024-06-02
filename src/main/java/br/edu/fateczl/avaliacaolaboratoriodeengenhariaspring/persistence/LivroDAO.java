@@ -3,10 +3,8 @@ package br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.persistence;
 import br.edu.fateczl.avaliacaolaboratoriodeengenhariaspring.model.Livro;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.xml.transform.Result;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +87,29 @@ public class LivroDAO {
         ps.close();
         c.close();
         return l;
+    }
+
+    public String manter(Livro livro) throws SQLException, ClassNotFoundException {
+        Connection c = gDao.getConnection();
+        String saida = "";
+        String sql = "{CALL sp_iu_livro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+        CallableStatement cs = c.prepareCall(sql);
+        cs.setInt(1, livro.getCodigo());
+        cs.setString(2, livro.getTitulo());
+        cs.setString(3, livro.getDescricao());
+        cs.setString(4,  livro.getGenero());
+        cs.setString(5, livro.getAutor());
+        cs.setDouble(6, livro.getPreco());
+        cs.setDate(7, livro.getData_publicacao());
+        cs.setInt(8, livro.getPaginas());
+        cs.setInt(9, livro.getEstoque());
+        cs.setString(10, saida);
+
+        cs.execute();
+        System.out.println(saida);
+        cs.close();
+        c.close();
+        return saida;
     }
 
 }
