@@ -77,9 +77,8 @@ public class CarrinhoController {
                         codigo_venda = carrinhoDAO.consultarVenda(email);
                         carrinhoDAO.deletarCarrinho(codigo_venda);
                     }
-                    else {
-                        calcularTotal(email);
-                    }
+
+                    calcularTotal(email);
 
                 }
                 if (botao.equals("Aumentar")){
