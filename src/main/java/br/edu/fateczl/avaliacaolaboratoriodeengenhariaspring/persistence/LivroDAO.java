@@ -89,7 +89,7 @@ public class LivroDAO {
         return l;
     }
 
-    public String manter(Livro livro) throws SQLException, ClassNotFoundException {
+    public String manter(Livro livro, String comando) throws SQLException, ClassNotFoundException {
         Connection c = gDao.getConnection();
         String saida = "";
         String sql = "{CALL sp_iu_livro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
@@ -103,10 +103,9 @@ public class LivroDAO {
         cs.setDate(7, livro.getData_publicacao());
         cs.setInt(8, livro.getPaginas());
         cs.setInt(9, livro.getEstoque());
-        cs.setString(10, saida);
+        cs.setString(10, comando);
 
         cs.execute();
-        System.out.println(saida);
         cs.close();
         c.close();
         return saida;

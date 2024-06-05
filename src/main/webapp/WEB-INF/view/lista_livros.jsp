@@ -23,7 +23,7 @@
     <div class="linha">
         <input type="text" id="nome" name="nome" placeholder="Nome do Livro" />
         <input type="submit" value="Pesquisar" />
-        <a class="btn" style="text-decoration: none; width: 115px" href="${pageContext.request.contextPath}/manter_livro">Novo</a></td>
+        <a class="btn" style="text-decoration: none; width: 115px" href="${pageContext.request.contextPath}/novo_livro">Novo</a></td>
     </div>
     <div>
         <table>

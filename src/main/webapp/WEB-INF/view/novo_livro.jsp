@@ -15,15 +15,17 @@
         <a href="logout">Logout</a>
     </header>
 </div>
-<form action="manter_livro" method="post">
+<form action="novo_livro" method="post">
     <main>
-        <input
-                type="number"
-                name="codigoLivro"
-                id="codigoLivro"
-                value="${codigoLivro}"
-                hidden
-        />
+        <div class="linha">
+            <label>Código</label>
+            <input
+                    type="number"
+                    name="codigoLivro"
+                    id="codigoLivro"
+                    value="${codigoLivro}"
+            />
+        </div>
         <div class="linha">
             <label>Título</label>
             <input
@@ -69,7 +71,7 @@
             <input type="date" name="dt_publicacao" id="dt_publicacao" value="${livro.data_publicacao}"/>
         </div>
         <div class="linha">
-            <label for="num_paginas">Número de Páginas</label>
+            <label for="num_paginas">Númoro de Páginas</label>
             <input
                     type="text"
                     name="num_paginas"
