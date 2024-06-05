@@ -23,7 +23,7 @@
                     type="number"
                     name="codigoLivro"
                     id="codigoLivro"
-                    value="${codigoLivro}"
+                    value="${livro.codigo}"
             />
         </div>
         <div class="linha">
